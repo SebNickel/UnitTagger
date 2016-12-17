@@ -122,7 +122,8 @@ public class CFGParser4Header extends RuleBasedParser {
 		"SU_MW ::- SU_W Op 1f"+ "\n" + 
 		"SU_MW ::- SU_MW SU_W 1f"+ "\n";
 	// TODO: allow a multiplier for simple units like in mg/thousand litres.
-	public static class EnumIndex implements Index<String> {
+	// I don't know why I needed to add the full classpath to Index here, but without that mvn "cannot find symbol".
+	public static class EnumIndex implements edu.stanford.nlp.util.Index<String> {
 		public enum Tags {SU_1W, SU_W, W, Mult, IN, OF, Op,PER, Number,Q,Boundary};
 		public short allowedTags[][] = {
 				{(short) Tags.SU_1W.ordinal(),(short) Tags.SU_W.ordinal(),(short) Tags.W.ordinal()},

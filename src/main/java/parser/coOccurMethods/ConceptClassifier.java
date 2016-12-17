@@ -116,7 +116,7 @@ public class ConceptClassifier implements ConceptTypeScores,Co_occurrenceScores,
     this(configs,quantDict,false,parser);
     InputStream istr=null;
     if (loadFile==null) {
-      istr = ClassLoader.class.getResourceAsStream("/"+ConceptClassifier.ClassifierFile);
+      istr = ClassLoader.class.getResourceAsStream("/configs/"+ConceptClassifier.ClassifierFile);
     } else {
       istr = new FileInputStream(loadFile);
     }
@@ -207,7 +207,7 @@ public class ConceptClassifier implements ConceptTypeScores,Co_occurrenceScores,
     classifier.buildClassifier(dataset);
     System.out.println(classifier.toString());
 
-    weka.core.SerializationHelper.write(ClassifierFile, myclassifier);
+    weka.core.SerializationHelper.write("/configs/" + ClassifierFile, myclassifier);
     if (hdrs != null) {
       Evaluation eval = new Evaluation(dataset);
       double pred[] = eval.evaluateModel(classifier,dataset);

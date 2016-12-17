@@ -37,24 +37,24 @@ public class WordnetFrequency implements WordFrequency, Serializable {
 		,"with","on","total","per","no","number","amp","apos","quot","hr","s"};
 	public static HashSet<String> stopWordsHash=new HashSet<String>(Arrays.asList(stopWords));
 	public WordnetFrequency(Element options) throws ParserConfigurationException, SAXException, IOException {
-	  options = QuantityCatalog.loadDefaultConfig(options);
+		options = QuantityCatalog.loadDefaultConfig(options);
 		wordnetFile =  extractLoadFile(options);
 		loadData();
 	}
 	/**
-   * 
-   */
-  private void loadData() {
-    if (database != null) {
-      return;
-    }
-    System.setProperty("wordnet.database.dir",wordnetFile);
-    database = WordNetDatabase.getFileInstance();
-    Synset syns[] = database.getSynsets(quantitySearchString, SynsetType.NOUN);
-    quantSyn = (NounSynset) syns[0];
-    calenderMonthSyn = (NounSynset) database.getSynsets(calendarMonth, SynsetType.NOUN)[0];
-  }
-  private static String extractLoadFile(Element elem) {
+	 *
+	 */
+	private void loadData() {
+		if (database != null) {
+			return;
+		}
+		System.setProperty("wordnet.database.dir",wordnetFile);
+		database = WordNetDatabase.getFileInstance();
+		Synset syns[] = database.getSynsets(quantitySearchString, SynsetType.NOUN);
+		quantSyn = (NounSynset) syns[0];
+		calenderMonthSyn = (NounSynset) database.getSynsets(calendarMonth, SynsetType.NOUN)[0];
+	}
+	private static String extractLoadFile(Element elem) {
 		if (elem != null) {
 			Element coOccurElem = XMLConfigs.getElement(elem, "WordNet");
 			if (coOccurElem!=null && coOccurElem.hasAttribute("path")) {
@@ -67,10 +67,10 @@ public class WordnetFrequency implements WordFrequency, Serializable {
 		// over-generalizes for words like last,span
 		// Quantity hypernym includes way too many units.
 		for  (int path = 0; nsyn != null; path++) {
-				NounSynset hypos[] = nsyn.getHypernyms();
-				nsyn = null;
-				for (int h = 0; h < hypos.length; h++) {
-					nsyn = hypos[0];
+			NounSynset hypos[] = nsyn.getHypernyms();
+			nsyn = null;
+			for (int h = 0; h < hypos.length; h++) {
+				nsyn = hypos[0];
 				if (hypos[h] == calenderMonthSyn) {
 					// ensures that names of months are not marked as units.
 					return false;
@@ -105,27 +105,27 @@ public class WordnetFrequency implements WordFrequency, Serializable {
 							NounSynset nsyn = (NounSynset) synsets[i];
 							System.out.println("Descendant of Quantity " + isUnit(nsyn)+ " "+isUnitDefn(nsyn) + " "+cnt);
 						}
-						
+
 					}
 				}
 				else
 				{
 					System.err.println("No synsets exist that contain " +
-							"the word form '" + wordForm + "'");
+						"the word form '" + wordForm + "'");
 				}
 			}
 		}
 		else
 		{
 			System.err.println("You must specify " +
-			"a word form for which to retrieve synsets.");
+				"a word form for which to retrieve synsets.");
 		}
 	}
 	/**
 	 * @param args
-	 * @throws IOException 
-	 * @throws SAXException 
-	 * @throws ParserConfigurationException 
+	 * @throws IOException
+	 * @throws SAXException
+	 * @throws ParserConfigurationException
 	 */
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
 		//args = HeaderSegmenter.WordSymbols;
@@ -139,11 +139,11 @@ public class WordnetFrequency implements WordFrequency, Serializable {
 
 	@Override
 	public boolean getRelativeFrequency(String wordForm, List<EntryWithScore<String[]>> matches) {
-	  if (database==null) {
-	    loadData();
-	  }
-	 //System.out.println("Did database lookup for "+wordForm);
-	  Synset[] synsets = database.getSynsets(wordForm, SynsetType.NOUN);
+		if (database==null) {
+			loadData();
+		}
+		//System.out.println("Did database lookup for "+wordForm);
+		Synset[] synsets = database.getSynsets(wordForm, SynsetType.NOUN);
 		//  Display the word forms and definitions for synsets retrieved
 		matches.clear();
 		int total = 0;
@@ -175,15 +175,15 @@ public class WordnetFrequency implements WordFrequency, Serializable {
 		//if (foundMatch && matches.size()==0) {
 		//	matches.add(new EntryWithScore<String[]>(new String[]{wordForm}, 1e-6));
 		//}
-		
+
 		return foundMatch;
 	}
 	private boolean isUnitDefn(Synset synset) {
 		// was "period of time" earlier and did not capture words like week.
-		boolean retVal = (synset.getDefinition().contains("unit") 
-				|| (synset.getDefinition().contains("period") && synset.getDefinition().contains("time"))
-				|| (synset.getDefinition().contains("second")) // synset.getDefinition().contains("period") && 14 Mar 2014: removed this and clause because millisecond is not getting marked as unit.
-				|| synset.getDefinition().contains(" number ") || synset.getDefinition().contains("a proportion multiplied by 100")// 17 Jul 2013: added for words like thousand, billion
+		boolean retVal = (synset.getDefinition().contains("unit")
+			|| (synset.getDefinition().contains("period") && synset.getDefinition().contains("time"))
+			|| (synset.getDefinition().contains("second")) // synset.getDefinition().contains("period") && 14 Mar 2014: removed this and clause because millisecond is not getting marked as unit.
+			|| synset.getDefinition().contains(" number ") || synset.getDefinition().contains("a proportion multiplied by 100")// 17 Jul 2013: added for words like thousand, billion
 		);
 		if (!retVal) {
 			// adding this since terms like milligram do not have unit in their definition.

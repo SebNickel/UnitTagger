@@ -34,7 +34,7 @@ import parser.UnitSpan;
 import parser.coOccurMethods.ConceptTypeScores;
 
 public class Co_occurrenceStatistics {
-	public static final String CoOccurFilePath = "configs/cooccurrence.txt";
+	public static final String CoOccurFilePath = "/configs/cooccurrence.txt";
 	public QuantityCatalog quantityDict;
 	//	List<String> units = new Vector<String>();
 	//TIntArrayList freqs = new TIntArrayList();
@@ -359,7 +359,7 @@ public class Co_occurrenceStatistics {
 	public static void main(String args[]) throws Exception {
 		int total[] = new int[3]; int totalOld[] = new int[3];
 		Co_occurrenceStatistics stats[] = new Co_occurrenceStatistics[1];
-		stats[0] = new Co_occurrenceStatistics(new QuantityCatalog((Element)null),"/mnt/a99/d0/sunita/workspace/QuantityTagger/configs/cooccurrence.txt");
+		stats[0] = new Co_occurrenceStatistics(new QuantityCatalog((Element)null),CoOccurFilePath);
 		//stats[1] = new Co_occurrenceStatistics(stats[0].quantityDict,"/mnt/a99/d0/sunita/workspace/QuantityTagger/configs/cooccurrencePMI.txt");
 		String tests[][] = {{"amount", "metre", "Length"},
 				{"weight","kilogram","Mass"}

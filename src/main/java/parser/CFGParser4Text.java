@@ -41,7 +41,7 @@ public class CFGParser4Text extends CFGParser4Header {
 		this(options, quantMatcher, null);
 	}
 	/**
-   * @param element
+   * @param options
    * @param quantDict
    * @param classifier
 	 * @throws Exception 
